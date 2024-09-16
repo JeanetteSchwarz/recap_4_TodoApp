@@ -15,7 +15,7 @@ public class TodoController {
 
     @GetMapping
     public List<Todo> getALlTodos(){
-        return todoService.getTodos();
+        return todoService.getAllTodos();
     }
 
     @GetMapping("/{id}")

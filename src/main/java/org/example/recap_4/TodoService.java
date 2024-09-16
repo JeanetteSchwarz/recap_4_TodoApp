@@ -15,7 +15,7 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
 
-    public List<Todo> getTodos(){
+    public List<Todo> getAllTodos(){
         return todoRepository.findAll();
     }
 
