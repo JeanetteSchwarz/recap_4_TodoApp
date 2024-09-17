@@ -24,8 +24,8 @@ public class TodoService {
     }
 
     public Todo addTodo(Todo newTodo) {
-        String generateId = UUID.randomUUID().toString();
-        Todo todoToAdd = new Todo(generateId, newTodo.description(), Status.OPEN);
+
+        Todo todoToAdd = new Todo(IDService.generateID(), newTodo.description(), Status.OPEN);
         return todoRepository.save(todoToAdd);
     }
 
