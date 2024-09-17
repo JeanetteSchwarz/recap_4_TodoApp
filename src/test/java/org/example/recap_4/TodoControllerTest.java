@@ -71,6 +71,42 @@ class TodoControllerTest {
                     }"""));
 
     }
+
+    @Test
+    @DirtiesContext
+    void test_updateToDo() throws Exception {
+        Todo testToDo = new Todo("789", "feed cat", Status.OPEN);
+        testRepository.save(testToDo);
+        mockMvc.perform(put("/api/todo/789")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                { "id":"789",
+                                "description":"feed cat and dog",
+                                "status":"OPEN"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                                 {
+                               "id":"789",
+                               "description":"feed cat and dog",
+                               "status":"OPEN"}
+                               """
+                ));
+    }
+
+    @Test
+    @DirtiesContext
+    void test_deleteTodo() throws Exception {
+        //GIVEN
+        testRepository.save(new Todo("456", "go swimming", Status.OPEN));
+       //WHEN
+        mockMvc.perform(delete("/api/todo/456"))
+        //THEN
+                .andExpect(status().isOk())
+                .andExpect(content().string("Task deleted")
+                );
+    }
     }
 
     /*@Test
