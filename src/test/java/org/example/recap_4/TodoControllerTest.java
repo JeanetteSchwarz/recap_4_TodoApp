@@ -1,6 +1,7 @@
 package org.example.recap_4;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.mockito.Mockito.mockStatic;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,8 +36,10 @@ class TodoControllerTest {
    @Autowired
    TodoRepository testRepository;
 
-    @MockBean
-    IDService idService;
+    //@MockBean
+    //IDService idService;
+
+    MockedStatic mock = mockStatic(IDService.class);
 
     @Test
     @DirtiesContext
@@ -107,21 +111,21 @@ class TodoControllerTest {
                 .andExpect(content().string("Task deleted")
                 );
     }
-    }
 
-    /*@Test
+    @Test
     @DirtiesContext
     void test_addNewTodo() throws Exception{
         //GIVEN
         String testID = "1234";
-        when(idService.generateID()).thenReturn(testID);
+        //when(mock.when()).thenReturn(testID);
+        mock.when(()-> IDService.generateID()).thenReturn(testID);
 
         mockMvc.perform(post("/api/todo")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
-                        "description": "learn spanish",
-                        "status": "OPEN"
+                        "description": "learn spanish"
+                        
                         }"""))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("""
@@ -132,6 +136,8 @@ class TodoControllerTest {
                   """));
 
 
-    }*/
+    }
+    }
+
 
   
